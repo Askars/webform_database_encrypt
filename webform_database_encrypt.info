@@ -1,0 +1,6 @@
+name = Webform Database Encrypt
+description = Encrypts webform fields in the database.
+core = 7.x
+
+dependencies[] = encrypt
+

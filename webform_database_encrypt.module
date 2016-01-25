@@ -1,0 +1,27 @@
+<?php
+
+function webform_database_encrypt_webform_submission_load(&$submissions) {
+    foreach ($submissions as $sid => $submission) {
+        foreach($submission->data as $key => $value_array) {
+            foreach($value_array as $va_key => $value) {
+                if (substr($value, 0, strlen("[encrypted]")) != "[encrypted]") {
+                    continue;
+                }
+                $submissions[$sid]->data[$key][$va_key] = decrypt(substr($value, strlen("[encrypted]")));
+            }
+        }
+    }
+}
+
+
+function webform_database_encrypt_webform_submission_presave($node, &$submission) {
+    // Update some component's value before it is saved.
+    foreach ($submission->data as $key => $value_array) {
+        foreach($value_array as $va_key => $value) {
+            $submission->data[$key][$va_key] = "[encrypted]" . encrypt($value);
+        }
+    }
+}
+
+
+?>
